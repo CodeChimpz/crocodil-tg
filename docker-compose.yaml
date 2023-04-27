@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  server:
+    command: ["npm","run","start"]
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    restart: always
+    build:
+      dockerfile: Dockerfile.postgres
+
+

@@ -1,0 +1,6 @@
+.env
+nodemon.json
+/node_modules
+/dist
+/logs
+/.idea
