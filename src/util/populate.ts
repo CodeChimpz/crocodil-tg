@@ -1,9 +1,9 @@
-import {DataSource} from "typeorm";
+import {DataSource} from "typeorm"
 import xslx from 'node-xlsx'
-import * as fs from "fs";
-import {HobbySchema} from "../schema/hobby.schema.js";
-import {CategorySchema} from "../schema/category.schema.js";
-import {dataSource} from "../connectors/db.js";
+import * as fs from "fs"
+import {HobbySchema} from "../schema/hobby.schema.js"
+import {CategorySchema} from "../schema/category.schema.js"
+import {dataSource} from "../connectors/db.js"
 import {parse} from "csv-parse"
 
 export async function readFromXls(data_location: string) {

@@ -8,9 +8,9 @@ import {
     OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     Relation
-} from "typeorm";
-import {UserSchema} from "./user.schema.js";
-import {HobbySchema} from "./hobby.schema.js";
+} from "typeorm"
+import {UserSchema} from "./user.schema.js"
+import {HobbySchema} from "./hobby.schema.js"
 
 @Entity('PING')
 export class PINGSchema {

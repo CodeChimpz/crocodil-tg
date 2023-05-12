@@ -1,12 +1,12 @@
-import {pings} from "../services/PING.service.js";
-import {userService} from "../services/user.service.js";
-import {hobbyService} from "../services/hobby.service.js";
-import TelegramBot from "node-telegram-bot-api";
+import {pings} from "../services/PING.service.js"
+import {userService} from "../services/user.service.js"
+import {hobbyService} from "../services/hobby.service.js"
+import TelegramBot from "node-telegram-bot-api"
 import TEXT from "../static/bot-text/text-data.json" assert {type: 'json'};
-import {RespondToPingBtn} from "../bot/Buttons";
 import schedule from 'node-cron'
-import {UserSchema} from "../schema/user.schema.js";
-import {HobbySchema} from "../schema/hobby.schema.js";
+import {UserSchema} from "../schema/user.schema.js"
+import {HobbySchema} from "../schema/hobby.schema.js"
+import {RespondToPingBtn} from "../bot/Buttons/RespondToPing.js"
 
 //todo: dedicated server with http conection to this one
 export async function schedulePing(time: { days: number, minutes?: number }, data: { user: UserSchema, hobby: HobbySchema }) {

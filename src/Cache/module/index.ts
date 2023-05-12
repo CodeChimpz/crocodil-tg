@@ -1,6 +1,6 @@
-import {FiltersRepo} from "./Filteredhobbies.Repo";
-import {RandomHobbiesRepo} from "./RandomHobbies.Repo";
-import {redis} from "../connectors/redis";
-import {Cache} from "./CacheClient";
+import {FiltersRepo} from "../FilteredHobbies.Repo.js"
+import {RandomHobbiesRepo} from "../RandomHobbies.Repo.js"
+import {redis} from "../../connectors/redis.js"
+import {Cache} from "../CacheClient.js"
 
 export const cache = new Cache<FiltersRepo, RandomHobbiesRepo>(redis, FiltersRepo, RandomHobbiesRepo)

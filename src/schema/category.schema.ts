@@ -1,4 +1,4 @@
-import {Column, Entity,Unique, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity,Unique, PrimaryGeneratedColumn} from "typeorm"
 
 @Unique('name_id', ['name'])
 @Entity('Category')

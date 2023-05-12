@@ -1,10 +1,11 @@
-import {Redis} from "ioredis";
+import {Redis} from "ioredis"
 
 export abstract class Repo {
     redis: Redis
-
-    protected constructor(redis: Redis) {
+    repoName: string
+    protected constructor(redis: Redis,repoName:string) {
         this.redis = redis
+        this.repoName = repoName
     }
 
     abstract get(id: String, ...args: any[]): Promise<any>

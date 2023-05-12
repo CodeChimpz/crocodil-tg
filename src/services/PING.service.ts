@@ -1,7 +1,6 @@
-import {LessThan, Repository} from "typeorm";
-import {PINGSchema} from "../schema/PING.schema.js";
-import {raw} from "express";
-import {dataSource} from "../connectors/db.js";
+import {LessThan, Repository} from "typeorm"
+import {PINGSchema} from "../schema/PING.schema.js"
+import {dataSource} from "../connectors/db.js"
 
 export class PINGService {
     repo: Repository<PINGSchema>

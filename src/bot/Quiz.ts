@@ -1,22 +1,25 @@
-import {PsycheAttributes} from "../schema/user.psych.schema";
-import {InlineKeyboard, InlineKeyboardButton, Row} from "node-telegram-keyboard-wrapper";
-import TelegramBot, {CallbackQuery, Message} from "node-telegram-bot-api";
-import {cache, Cache} from "./cache.js";
+import {PsycheAttributes} from "../schema/user.psych.schema.js"
+import {InlineKeyboard, InlineKeyboardButton, Row} from "node-telegram-keyboard-wrapper"
+import TelegramBot, {CallbackQuery, Message} from "node-telegram-bot-api"
 import TEXT from "../static/bot-text/text-data.json" assert {type: 'json'};
-import {userService, UserService} from "../services/user.service.js";
-import {hobbyService, HobbyService} from "../services/hobby.service.js";
-import {HobbyRow, HobbyRowBasic} from "./rows.js";
-import {HobbySchema} from "../schema/hobby.schema";
+import {userService, UserService} from "../services/user.service.js"
+import {hobbyService, HobbyService} from "../services/hobby.service.js"
+import {HobbySchema} from "../schema/hobby.schema.js"
+import {Cache} from "../Cache/CacheClient.js"
+import {FiltersRepo} from "../Cache/FilteredHobbies.Repo.js"
+import {RandomHobbiesRepo} from "../Cache/RandomHobbies.Repo.js"
+import {HobbyRowGeneral} from "./Rows/HobbyRowGeneral.js"
+import {cache} from "../Cache/module/index.js"
 
 export class QuizManager {
-    cache: Cache
+    cache: Cache<FiltersRepo, RandomHobbiesRepo>
     userService: UserService
     hobbyService: HobbyService
     number_of_results = 8
     //
     questions: Array<QuizQuestion>
 
-    constructor(cache: Cache, userService: UserService, hobbyService: HobbyService, questions?: Array<QuizQuestion>) {
+    constructor(cache: Cache<FiltersRepo, RandomHobbiesRepo>, userService: UserService, hobbyService: HobbyService, questions?: Array<QuizQuestion>) {
         this.questions = questions || []
         this.cache = cache
         this.userService = userService
@@ -113,7 +116,13 @@ export class QuizManager {
         await bot.editMessageText(TEXT.categories.result, {
             chat_id: id,
             message_id: input.message?.message_id,
-            reply_markup: HobbyRow(hobbies.slice(skip, limit), 'quiz', page, final)
+            reply_markup: new HobbyRowGeneral().transform(hobbies.slice(skip, limit), {
+                row_len: 30,
+                mode: 'quiz',
+                in_a_row: 10,
+                page,
+                final
+            })
         })
     }
 }

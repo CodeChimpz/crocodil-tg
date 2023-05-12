@@ -1,6 +1,6 @@
 import QUIZ from '../static/bot-text/quiz-text.json' assert {type: 'json'}
-import {PsycheAttributes} from "../schema/user.psych.schema.js";
-import {OptionsT, QuizQuestion} from "../bot/Quiz.js";
+import {PsycheAttributes} from "../schema/user.psych.schema.js"
+import {OptionsT, QuizQuestion} from "../bot/Quiz.js"
 
 interface IExpectedSchema {
     name: string,

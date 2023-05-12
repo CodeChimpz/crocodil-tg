@@ -8,9 +8,9 @@ import {
     OneToMany,
     Relation,
     JoinColumn
-} from "typeorm";
-import {CategorySchema} from "./category.schema.js";
-import {ReviewSchema} from "./review.schema.js";
+} from "typeorm"
+import {CategorySchema} from "./category.schema.js"
+import {ReviewSchema} from "./review.schema.js"
 
 
 @Entity('Hobby')

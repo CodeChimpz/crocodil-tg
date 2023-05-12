@@ -1,6 +1,6 @@
-import TelegramBot, {CallbackQuery, Message} from "node-telegram-bot-api";
-import EventEmitter from "events";
-import {ActionObject, FunctionCommandT} from "../types";
+import TelegramBot, {CallbackQuery, Message} from "node-telegram-bot-api"
+import EventEmitter from "events"
+import {ActionObject, FunctionCommandT} from "../types/index.js"
 
 export class Bot {
     bot: TelegramBot
@@ -19,7 +19,7 @@ export class Bot {
                 if (query.data?.split(':')[0] === action) {
                     try {
                         console.log(query.message?.chat.id, '-> runs ->', query.data)
-                        await func(this.bot, query, this.app_events)
+                        await func( query, this.app_events)
                         await this.bot.answerCallbackQuery(String(query.id), {})
                     } catch (e: any) {
                         await this.bot.answerCallbackQuery(String(query.id), {
@@ -39,7 +39,7 @@ export class Bot {
                 this.bot.onText(new RegExp(prompt), async (message: Message) => {
                     try {
                         console.log(message.chat.id, '-> prompts ->', message.text)
-                        await func(this.bot, message, this.app_events)
+                        await func(message, this.app_events)
                     } catch (e: any) {
                         console.error('error', e)
                         await this.bot.sendMessage(Number(message.chat.id), 'Ошибка, ошибка, ошибка 🤕 ... \nСохраняй терпение, ща я все порешаю')
@@ -55,7 +55,7 @@ export class Bot {
             console.log(message);
             try {
                 console.log(message.chat.id, '-> prompts ->', message.text)
-                await func(this.bot, message, this.app_events)
+                await func(message, this.app_events)
             } catch (e: any) {
                 console.log(e)
                 await this.bot.sendMessage(Number(message.chat.id), 'Ошибка, ошибка, ошибка 🤕 ... \nСохраняй терпение, ща я все порешаю')
@@ -66,7 +66,7 @@ export class Bot {
     onEvent(event: string, func: FunctionCommandT<CallbackQuery>) {
         this.app_events.on(event, async (cb: CallbackQuery) => {
             try {
-                await func(this.bot, cb, this.app_events)
+                await func( cb, this.app_events)
             } catch (e: any) {
                 console.log(e)
                 await this.bot.sendMessage(String(cb.chat_instance), 'Ошибка, ошибка, ошибка 🤕 ... \nСохраняй терпение, ща я все порешаю')

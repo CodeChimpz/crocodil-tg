@@ -1,6 +1,6 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn, Relation} from "typeorm";
-import {UserSchema} from "./user.schema.js";
-import {HobbySchema} from "./hobby.schema.js";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn, Relation} from "typeorm"
+import {UserSchema} from "./user.schema.js"
+import {HobbySchema} from "./hobby.schema.js"
 
 @Entity('Review')
 export class ReviewSchema {

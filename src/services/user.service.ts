@@ -1,9 +1,9 @@
-import {DataSource, Repository} from "typeorm";
-import {dataSource} from "../connectors/db.js";
-import {UserSchema} from "../schema/user.schema.js";
-import {HobbySchema} from "../schema/hobby.schema.js";
-import {PsycheAttributes, UserPsycheSchema} from "../schema/user.psych.schema.js";
-import {PINGSchema} from "../schema/PING.schema.js";
+import {DataSource, Repository} from "typeorm"
+import {dataSource} from "../connectors/db.js"
+import {UserSchema} from "../schema/user.schema.js"
+import {HobbySchema} from "../schema/hobby.schema.js"
+import {PsycheAttributes, UserPsycheSchema} from "../schema/user.psych.schema.js"
+import {PINGSchema} from "../schema/PING.schema.js"
 
 export class UserService {
     repo: Repository<UserSchema>

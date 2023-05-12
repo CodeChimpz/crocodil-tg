@@ -1,7 +1,7 @@
 //change hobby
-import {InlineKeyboardButton} from "node-telegram-bot-api";
-import TEXT from "../../static/bot-text/text-data.json";
-import {HobbyInlineQueryButton} from "./interfaces/interfaces";
+import {InlineKeyboardButton} from "node-telegram-bot-api"
+import TEXT from "../../static/bot-text/text-data.json" assert {type:'json'}
+import {HobbyInlineQueryButton} from "./interfaces/interfaces.js"
 
 
 export class ChangeHobby implements InlineKeyboardButton, HobbyInlineQueryButton {

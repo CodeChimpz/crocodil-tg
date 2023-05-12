@@ -1,11 +1,11 @@
-import {Redis} from "ioredis";
-import {Repo} from "./Repo";
+import {Redis} from "ioredis"
+import {Repo} from "./Repo.js"
 
 //Accesses filters chosen by User
 export class FiltersRepo extends Repo {
 
     constructor(redis: Redis) {
-        super(redis)
+        super(redis, 'filters')
 
     }
 

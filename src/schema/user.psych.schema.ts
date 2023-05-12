@@ -1,6 +1,6 @@
-import {Check, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Relation, Unique} from "typeorm";
+import {Check, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Relation, Unique} from "typeorm"
 
-import {UserSchema} from "./user.schema.js";
+import {UserSchema} from "./user.schema.js"
 
 export enum PsycheAttributes {
     protected_ = 'защищённость',

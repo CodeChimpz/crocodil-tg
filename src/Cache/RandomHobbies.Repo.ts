@@ -1,13 +1,12 @@
 //Repo that works with random hobbies stored for each user
 
-import {Redis} from "ioredis";
-import {HobbySchema} from "../schema/hobby.schema";
-import {Repo} from "./Repo";
+import {Redis} from "ioredis"
+import {HobbySchema} from "../schema/hobby.schema.js"
+import {Repo} from "./Repo.js"
 
 export class RandomHobbiesRepo extends Repo {
-
     constructor(redis: Redis) {
-        super(redis)
+        super(redis, 'random')
     }
 
     async pop(id: string, to_change: string) {

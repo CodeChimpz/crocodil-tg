@@ -1,5 +1,5 @@
 //send ping
-import {InlineKeyboardButton} from "node-telegram-bot-api";
+import {InlineKeyboardButton} from "node-telegram-bot-api"
 
 export class PingOptionBtn implements InlineKeyboardButton {
     text: string

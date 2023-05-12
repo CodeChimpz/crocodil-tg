@@ -7,10 +7,10 @@ import {
     PrimaryColumn,
     PrimaryGeneratedColumn,
     JoinTable, OneToMany
-} from "typeorm";
-import {HobbySchema} from "./hobby.schema.js";
-import {UserPsycheSchema} from "./user.psych.schema.js";
-import {PINGSchema} from "./PING.schema.js";
+} from "typeorm"
+import {HobbySchema} from "./hobby.schema.js"
+import {UserPsycheSchema} from "./user.psych.schema.js"
+import {PINGSchema} from "./PING.schema.js"
 
 @Entity('User')
 export class UserSchema {

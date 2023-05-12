@@ -1,6 +1,6 @@
-import {DataSource, ObjectLiteral, Repository} from "typeorm";
-import {dataSource} from "../connectors/db.js";
-import {CategorySchema} from "../schema/category.schema.js";
+import {DataSource, ObjectLiteral, Repository} from "typeorm"
+import {dataSource} from "../connectors/db.js"
+import {CategorySchema} from "../schema/category.schema.js"
 
 
 export class CategoryService {
