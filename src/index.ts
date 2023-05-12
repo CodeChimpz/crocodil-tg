@@ -4,7 +4,7 @@ import {dataSource} from "./connectors/db.js"
 import express from "express"
 import {scheduleCheck} from "./util/schedule.js"
 import {PROMPTS} from "./static/bot-text/text-prompts.js"
-import {App} from "./bot/App.js"
+import {App, bot} from "./bot/App.js"
 import {Bot} from "./bot/Bot.js"
 import TelegramBot from "node-telegram-bot-api"
 import {HobbyViewCommandController} from "./bot/CommandControllers/HobbyViewController.js"
@@ -21,7 +21,7 @@ const {
 } = process.env
 //spin up bot
 const TOKEN = String(process.env.TELEGRAM_TOKEN)
-const bot = new Bot(new TelegramBot(TOKEN, {polling: true}))
+
 const hobbyView = new HobbyViewCommandController(cache, hobbyService, categoryService, bot.bot)
 const hobbySet = new HobbySetController(hobbyService, userService, bot.bot)
 const appCommands = new AppController(userService, bot.bot)

@@ -8,7 +8,7 @@ import {userService} from "../services/user.service.js"
 config()
 const TOKEN = String(process.env.TELEGRAM_TOKEN)
 
-const bot = new Bot(new TelegramBot(TOKEN, {polling: true}))
+export const bot = new Bot(new TelegramBot(TOKEN, {polling: true}))
 
 
 export class App {
