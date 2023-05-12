@@ -3,10 +3,6 @@ import EventEmitter from "events";
 
 type FunctionCommandT<InputT> = (bot: TelegramBot, input: InputT, events?: EventEmitter) => Promise<any>
 
-export interface ActionObject<T> {
-    [key: string]: FunctionCommandT<T>
-}
-
 export class Bot {
     bot: TelegramBot
     app_events: EventEmitter
@@ -16,7 +12,7 @@ export class Bot {
         this.app_events = new EventEmitter()
     }
 
-    registerCbActions(actions: ActionObject<CallbackQuery|Message>) {
+    registerCbActions(actions: { [key: string]: FunctionCommandT<CallbackQuery | Message> }) {
         Object.entries(actions).forEach(entry_ => {
             const [action, func] = entry_
             console.log('Registered callback_query action : ' + action)
@@ -38,7 +34,7 @@ export class Bot {
         })
     }
 
-    registerPrompts(prompts: ActionObject<Message>) {
+    registerPrompts(prompts: { [key: string]: FunctionCommandT<Message> }) {
         Object.entries(prompts).forEach((entry) => {
                 const [prompt, func] = entry
                 this.bot.onText(new RegExp(prompt), async (message: Message) => {
@@ -53,6 +49,19 @@ export class Bot {
                 console.log('Registered command or prompt : "' + prompt + '"')
             }
         )
+    }
+
+    onCbAction(action: string, func: FunctionCommandT<CallbackQuery>) {
+        this.bot.on('callback_query', async (query) => {
+            if (query.data?.split(':')[0] === action) {
+                console.log(query.data)
+                return func(this.bot, query, this.app_events)
+            }
+        })
+    }
+
+    onPrompt(prompt: string, func: FunctionCommandT<Message>) {
+        this.bot.onText(new RegExp(prompt), (message: Message) => func(this.bot, message, this.app_events))
     }
 
     onBotEvent(event: TelegramBot.MessageType, func: FunctionCommandT<Message>) {

@@ -7,7 +7,8 @@ import TEXT from "../static/bot-text/text-data.json" assert {type: 'json'};
 export class ChangeHobby implements InlineKeyboardButton {
     text: string
     callback_data: string
-    //TODO:
+    static cb_action = 'change-hobby'
+
     constructor(change: boolean, hobby:number) {
         this.text = change ? TEXT.hobby.tried_change : TEXT.hobby.continue_hesitant
         const res = change ? '1' : '0'

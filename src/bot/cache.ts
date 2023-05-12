@@ -8,18 +8,18 @@ interface Repo {
     put(id: String, entity: any, ...args: any[]): Promise<any>
 }
 
-interface RepoConstructable<Type> {
-    new(redis: Redis): Type
+interface RepoConstructable {
+    new(redis: Redis): Repo
 }
 
 //An interface to expose Repos for cache data , composites Repo classes
-export class Cache<FiltersRepo extends Repo, RandomRepo extends Repo> {
+export class Cache {
     redis: Redis
     //repos with predefined operations
-    filters: FiltersRepo
-    random: RandomRepo
+    filters: any
+    random: any
 
-    constructor(redis: Redis, filtersRepoClass: RepoConstructable<FiltersRepo>, randomRepoClass: RepoConstructable<RandomRepo>) {
+    constructor(redis: Redis, filtersRepoClass: RepoConstructable, randomRepoClass: RepoConstructable) {
         this.redis = redis
         //compose repos
         this.filters = new filtersRepoClass(redis)
@@ -33,7 +33,7 @@ export class Cache<FiltersRepo extends Repo, RandomRepo extends Repo> {
 }
 
 //Repo that works with random hobbies stored for each user
-export class RandomHobbiesRepo {
+class RandomHobbiesRepo {
     redis: Redis
 
     constructor(redis: Redis) {
@@ -73,7 +73,7 @@ export class RandomHobbiesRepo {
 }
 
 //Accesses filters chosen by User
-export class FiltersRepo {
+class FiltersRepo {
     redis: Redis
 
     constructor(redis: Redis) {
@@ -108,5 +108,4 @@ export class FiltersRepo {
 }
 
 //
-export type CurrentCache = Cache<FiltersRepo, RandomHobbiesRepo>
-export const cache = new Cache<FiltersRepo, RandomHobbiesRepo>(redis, FiltersRepo, RandomHobbiesRepo)
+export const cache = new Cache(redis, FiltersRepo, RandomHobbiesRepo)

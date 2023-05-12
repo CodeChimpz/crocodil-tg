@@ -1,7 +1,7 @@
 import {PsycheAttributes} from "../schema/user.psych.schema";
 import {InlineKeyboard, InlineKeyboardButton, Row} from "node-telegram-keyboard-wrapper";
 import TelegramBot, {CallbackQuery, Message} from "node-telegram-bot-api";
-import {cache, Cache, CurrentCache} from "./cache.js";
+import {cache, Cache} from "./cache.js";
 import TEXT from "../static/bot-text/text-data.json" assert {type: 'json'};
 import {userService, UserService} from "../services/user.service.js";
 import {hobbyService, HobbyService} from "../services/hobby.service.js";
@@ -9,14 +9,14 @@ import {HobbyRow, HobbyRowBasic} from "./rows.js";
 import {HobbySchema} from "../schema/hobby.schema";
 
 export class QuizManager {
-    cache: CurrentCache
+    cache: Cache
     userService: UserService
     hobbyService: HobbyService
     number_of_results = 8
     //
     questions: Array<QuizQuestion>
 
-    constructor(cache: CurrentCache, userService: UserService, hobbyService: HobbyService, questions?: Array<QuizQuestion>) {
+    constructor(cache: Cache, userService: UserService, hobbyService: HobbyService, questions?: Array<QuizQuestion>) {
         this.questions = questions || []
         this.cache = cache
         this.userService = userService

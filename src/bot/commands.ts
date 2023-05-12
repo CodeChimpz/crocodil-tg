@@ -19,7 +19,7 @@ import {
 } from "./rows.js";
 import {HobbySchema} from "../schema/hobby.schema.js";
 import {categoryService, CategoryService} from "../services/category.service.js";
-import {cache, Cache, CurrentCache} from "./cache.js";
+import {cache, Cache} from "./cache.js";
 import EventEmitter from "events";
 import {InlineKeyboard, InlineKeyboardButton, Row} from "node-telegram-keyboard-wrapper";
 
@@ -29,11 +29,15 @@ interface OptionsI {
         hobbyService: HobbyService,
         categoryService: CategoryService
     }
-    cache: CurrentCache
+    //redis cache service
+    cache: Cache
+    //
 }
 
 export class BotCommandManager {
-    cache: CurrentCache
+    //cache
+    cache: Cache
+    //services
     hobbyService: HobbyService
     userService: UserService
     categoryService: CategoryService
@@ -45,7 +49,7 @@ export class BotCommandManager {
         this.hobbyService = options.services.hobbyService
         this.categoryService = options.services.categoryService
         this.cache = options.cache
-
+        //
         this.number_of_results = 8
     }
 
@@ -58,7 +62,7 @@ export class BotCommandManager {
         const met_before = await this.userService.get(String(id))
         if (!met_before) {
             await this.userService.create(String(id))
-            await bot.sendMessage(id, TEXT.greet.initial + '\n' + TEXT.greet.general, {
+            await bot.sendMessage(id, TEXT.greet.initial, {
                 reply_markup: new InlineKeyboard(new Row(new InlineKeyboardButton(PROMPTS.categories.random, 'callback_data', 'get-random')
                         , new InlineKeyboardButton(PROMPTS.categories.filters, 'callback_data', 'get-filters')),
                     new Row(new InlineKeyboardButton(PROMPTS.categories.categories, 'callback_data', 'get-categories'),
@@ -333,7 +337,116 @@ export class BotCommandManager {
         }
 
     }
+
+//PING
+    //set ping for a user
+    setPing = async (bot: TelegramBot, input: CallbackQuery) => {
+        const id = input.message?.chat.id
+        const ping_time = input.data?.split(':')[1]
+        const hobby_id = input.data?.split(':')[2]
+        const hobby_got = await this.hobbyService.findById(Number(hobby_id))
+        if (!hobby_got) {
+            return
+        }
+        const usr = await this.userService.get(String(id))
+        if (!usr) {
+            return
+        }
+        //set scheduled job
+        await schedulePing({ days: Number(ping_time)}, {user: usr, hobby: hobby_got})
+        await bot.editMessageText(TEXT.ping.confirm, {
+            chat_id: id,
+            message_id: Number(input.message?.message_id)
+        })
     }
+
+    answerPing = async (bot: TelegramBot, input: CallbackQuery) => {
+        const id = input.message?.chat.id
+        const tried = Number(input.data?.split(':')[1])
+        const hobby = input.data?.split(':')[2]
+        console.log(hobby, tried)
+        if (!tried) {
+            await bot.editMessageText(TEXT.ping.change, {
+                chat_id: Number(id),
+                message_id: Number(input.message?.message_id),
+                reply_markup: {
+                    inline_keyboard: [[new ChangeHobby(true, Number(hobby))], [new ChangeHobby(false, Number(hobby))]]
+                }
+            })
+        } else {
+            await bot.editMessageText(TEXT.ping.liked, {
+                chat_id: Number(id),
+                message_id: Number(input.message?.message_id),
+                reply_markup: {
+                    inline_keyboard: [[new RateHobbyBtn(true)], [new RateHobbyBtn(false)]]
+                }
+            })
+        }
+    }
+
+    //rate how user liked the proposed hobby
+    rate = async (bot: TelegramBot, input: CallbackQuery) => {
+        const id = input.message?.chat.id
+        const liked = Number(input.data?.split(':')[1])
+        const user = await this.userService.get(String(id))
+        //
+        if (!user) {
+            return
+        }
+        const hobby_got = await this.hobbyService.findById(Number(user.current_Hobby._id))
+        if (!hobby_got) {
+            return
+        }
+        //
+        if (!liked) {
+            await bot.editMessageText(TEXT.ping.rate_propose, {
+                chat_id: id,
+                message_id: input.message?.message_id
+            })
+        } else {
+            await bot.editMessageText(TEXT.ping.congratulate, {
+                chat_id: id,
+                message_id: input.message?.message_id
+            })
+            //reschedule
+            const job = async () => {
+                console.log('Pinging a user')
+                return bot.editMessageText('Ты продолжаешь заниматься ' + user?.current_Hobby.name + " ?", {
+                    chat_id: id,
+                    message_id: input.message?.message_id,
+                    reply_markup: {inline_keyboard: [[new RespondToPingBtn(true, Number(user._id))], [new RespondToPingBtn(false, Number(user._id))]]}
+                })
+            }
+            await schedulePing({days:
+                    Number({days: 30})}, {user: user, hobby: hobby_got})
+        }
+    }
+
+    //write rating to db from user reply
+    acceptRating = async (bot: TelegramBot, input: Message, events: EventEmitter) => {
+        const id = input.chat.id
+        if (!input.text) {
+            await bot.editMessageText(TEXT.general.empty_prompt, {
+                chat_id: id,
+                message_id: input.message_id
+            })
+        } else {
+            const review = input.text.split('/ratemy')[1].trim()
+            const user = await this.userService.get(String(id))
+            //todo : check all hobbies that user had
+            if (!user?.current_Hobby) {
+                await bot.editMessageText(TEXT.rate.no_hobby, {
+                    chat_id: id,
+                    message_id: input.message_id
+                })
+            } else {
+                await this.hobbyService.leaveReview(user.current_Hobby._id, review)
+                await bot.sendMessage(Number(id), TEXT.rate.thank)
+                events.emit('go-back', input)
+            }
+        }
+    }
+}
 
 export const commands = new BotCommandManager({
     services: {
@@ -344,7 +457,7 @@ export const commands = new BotCommandManager({
     cache
 })
 
-
+//
 function getFromMessageOrCb(input: Message | CallbackQuery) {
     const mess_inp = <Message>input
     const cb_inp = <CallbackQuery>input
