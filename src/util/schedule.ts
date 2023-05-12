@@ -3,7 +3,7 @@ import {userService} from "../services/user.service.js";
 import {hobbyService} from "../services/hobby.service.js";
 import TelegramBot from "node-telegram-bot-api";
 import TEXT from "../static/bot-text/text-data.json" assert {type: 'json'};
-import {RespondToPingBtn} from "../bot/buttons.js";
+import {RespondToPingBtn} from "../bot/Buttons";
 import schedule from 'node-cron'
 import {UserSchema} from "../schema/user.schema.js";
 import {HobbySchema} from "../schema/hobby.schema.js";

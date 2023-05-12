@@ -4,7 +4,7 @@ import {userService, UserService} from "../services/user.service.js";
 import {redis} from "../connectors/redis.js";
 import {
     RespondToPingBtn, RateHobbyBtn, ChangeHobby
-} from "./buttons.js";
+} from "./Buttons";
 import {PROMPTS} from "../static/bot-text/text-prompts.js";
 import TEXT from "../static/bot-text/text-data.json" assert {type: 'json'};
 import {QueryToMsg} from "../util/decorators.js";

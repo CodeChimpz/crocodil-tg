@@ -3,7 +3,7 @@ import {HobbySchema} from "../schema/hobby.schema.js";
 import {PROMPTS} from "../static/bot-text/text-prompts.js";
 import {CategorySchema} from "../schema/category.schema.js";
 import TEXT from "../static/bot-text/text-data.json" assert {type: 'json'};
-import {PingOptionBtn} from "./buttons.js";
+import {PingOptionBtn} from "./Buttons";
 import {format} from "../util/textFormat.js";
 
 export type ModeT = 'filter' | 'category' | 'quiz'
@@ -131,8 +131,7 @@ export function CategoriesKb(filters: Array<CategorySchema>, in_a_row: number, p
 export function PingOptions(opts: Array<string>, hobby: number) {
     const kb = new InlineKeyboard()
     const btns = opts.map(num => {
-        const res = new PingOptionBtn(num, hobby)
-        return res.button
+        return new PingOptionBtn(num, hobby) as unknown as InlineKeyboardButton
     })
     kb.push(new Row(...btns))
     return kb.getMarkup()
