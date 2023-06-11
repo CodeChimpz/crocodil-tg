@@ -34,16 +34,16 @@ export class HobbySetController {
         //assign the hobby to user
         const hobby = await this.hobbyService.findById(Number(hobby_id))
         if (!hobby) {
-            return
+            throw new Error('no hobby')
         }
         const usr = await this.userService.setHobby(String(id), hobby)
         if (!usr) {
-            return
+            throw new Error('no user')
         }
         //give user info
         const guide = await this.hobbyService.findById(Number(hobby_id))
         if (!guide) {
-            return
+            throw new Error('no guide')
         }
         //send
         //TEXT
