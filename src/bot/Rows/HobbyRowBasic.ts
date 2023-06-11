@@ -3,7 +3,7 @@ import {HobbySchema} from "../../schema/hobby.schema.js"
 import {HobbyTransformOptions} from "./interfaces/index.js"
 import {InlineKeyboard, InlineKeyboardButton, Row} from "node-telegram-keyboard-wrapper"
 import {format} from "../../util/textFormat.js"
-import TEXT from "../../static/bot-text/text-data.json" assert {type:'json'} assert {type: 'json'}
+import TEXT from "../../static/bot-text/text-data.json" assert {type:'json'}
 import {RowTransformer} from "./HobbyRowTransformer.js"
 
 export class HobbyRowBasic extends RowTransformer<HobbySchema>{

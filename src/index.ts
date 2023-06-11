@@ -43,6 +43,10 @@ const not_app = new App(bot, {
         'search-filters': hobbyView.get_by_filters,
         //categories
         'get-category': hobbyView.get_by_category,
+        'set-ping':hobbySet.setPing,
+        'answer-ping':hobbySet.answerPing,
+        'rate-hobby':hobbySet.rate,
+
     },
     prompts: {
         [PROMPTS.commands.start]: appCommands.startup.bind(appCommands),

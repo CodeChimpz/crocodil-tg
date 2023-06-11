@@ -39,4 +39,8 @@ export class RandomHobbiesRepo extends Repo {
         return redis.lrange(id, 0, MAX - 1)
 
     }
+
+    async purge(id: string) {
+        return this.redis.del(id)
+    }
 }

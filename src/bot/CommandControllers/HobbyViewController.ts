@@ -26,7 +26,7 @@ export class HobbyViewCommandController {
     number_of_results: number
     bot: TelegramBot
 
-    constructor(cache: Cache<FiltersRepo, RandomHobbiesRepo>, hobbyService: HobbyService, categoryService: CategoryService, bot: TelegramBot) {
+    constructor(cache: Cache, hobbyService: HobbyService, categoryService: CategoryService, bot: TelegramBot) {
         this.hobbyService = hobbyService
         this.categoryService = categoryService
         this.filtersCache = cache.getRepository<FiltersRepo>('filters')

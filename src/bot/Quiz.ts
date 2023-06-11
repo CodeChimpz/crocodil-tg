@@ -12,14 +12,14 @@ import {HobbyRowGeneral} from "./Rows/HobbyRowGeneral.js"
 import {cache} from "../Cache/module/index.js"
 
 export class QuizManager {
-    cache: Cache<FiltersRepo, RandomHobbiesRepo>
+    cache: Cache
     userService: UserService
     hobbyService: HobbyService
     number_of_results = 8
     //
     questions: Array<QuizQuestion>
 
-    constructor(cache: Cache<FiltersRepo, RandomHobbiesRepo>, userService: UserService, hobbyService: HobbyService, questions?: Array<QuizQuestion>) {
+    constructor(cache: Cache, userService: UserService, hobbyService: HobbyService, questions?: Array<QuizQuestion>) {
         this.questions = questions || []
         this.cache = cache
         this.userService = userService

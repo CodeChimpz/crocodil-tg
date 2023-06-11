@@ -1,7 +1,8 @@
 //send ping
 import {InlineKeyboardButton} from "node-telegram-bot-api"
+import {HobbyInlineWithExclusiveBtn} from "./interfaces/interfaces";
 
-export class PingOptionBtn implements InlineKeyboardButton {
+export class PingOptionBtn implements HobbyInlineWithExclusiveBtn {
     text: string
     exclusive_key: string
     exclusive_value: string

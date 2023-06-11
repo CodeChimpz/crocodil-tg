@@ -3,13 +3,13 @@ import {RepoConstructable} from "./interfaces/interfaces.js"
 import {Repo} from "./Repo.js"
 
 //An interface to expose Repos for cache data , composites Repo classes passing one Redis client to all of them
-export class Cache<FiltersRepo extends Repo, RandomRepo extends Repo> {
+export class Cache {
     redis: Redis
-    filters: FiltersRepo
-    random: RandomRepo
+    filters: Repo
+    random: Repo
 
 
-    constructor(redis: Redis, filtersRepoClass: RepoConstructable<FiltersRepo>, randomRepoClass: RepoConstructable<RandomRepo>) {
+    constructor(redis: Redis, filtersRepoClass: RepoConstructable<Repo>, randomRepoClass: RepoConstructable<Repo>) {
         this.redis = redis
         //compose repos from passed classes
         const filters = new filtersRepoClass(redis)
@@ -19,8 +19,8 @@ export class Cache<FiltersRepo extends Repo, RandomRepo extends Repo> {
 
     }
 
-    getRepository<RepoType>(name: string):any {
-        if(name==='filters'){
+    getRepository<RepoType>(name: string): any {
+        if (name === 'filters') {
             return this.filters
         }
         return this.random

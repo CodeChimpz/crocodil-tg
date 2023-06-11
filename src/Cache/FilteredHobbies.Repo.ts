@@ -9,6 +9,13 @@ export class FiltersRepo extends Repo {
 
     }
 
+    async pop(id: string, to_change: string) {
+        const redis = this.redis
+        await redis.lrem(id, 1, to_change)
+        //get new
+        return redis.lpop(id)
+    }
+
     async put(id: string, filter: string) {
         const redis = this.redis
         //
